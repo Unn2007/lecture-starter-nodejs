@@ -36,6 +36,22 @@ router.get(
   responseMiddleware
 );
 
+router.post(
+  "/",
+  createUserValid,
+  (req, res, next) => {
+    if (res.err) return next();
+    try {
+      res.data = userService.create(req.body);
+    } catch (err) {
+      res.err = err;
+    } finally {
+      next();
+    }
+  },
+  responseMiddleware
+);
+
 // TODO: Implement route controllers for user
 
 export { router };

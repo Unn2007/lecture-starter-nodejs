@@ -17,6 +17,18 @@ class UserService {
     return user;
   }
 
+  create(userData) {
+    const users = this.getAll();
+
+    const emailExists = users.some(u => u.email.toLowerCase() === userData.email.toLowerCase());
+    if (emailExists) throw new Error('Email already exists');
+
+    const phoneExists = users.some(u => u.phone === userData.phone);
+    if (phoneExists) throw new Error('Phone already exists');
+
+    return userRepository.create(userData);
+  }
+
 
   search(search) {
     const item = userRepository.getOne(search);
