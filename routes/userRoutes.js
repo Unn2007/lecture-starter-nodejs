@@ -56,13 +56,24 @@ router.patch(
   "/:id",
   updateUserValid,
   (req, res, next) => {
-
     if (res.err) return next();
-
-
 
     try {
       res.data = userService.update(req.params.id, req.body);
+    } catch (err) {
+      res.err = err;
+    } finally {
+      next();
+    }
+  },
+  responseMiddleware
+);
+
+router.delete(
+  "/:id",
+  (req, res, next) => {
+    try {
+      res.data = userService.delete(req.params.id);
     } catch (err) {
       res.err = err;
     } finally {

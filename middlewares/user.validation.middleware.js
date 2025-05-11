@@ -1,30 +1,30 @@
 import { USER } from "../models/user.js";
 
-const isValidEmail = email =>  /^[a-zA-Z0-9._%+-]+@[^@]+\.[^@]+$/.test(email);
-const isPhoneUA = phone => /^\+380\d{9}$/.test(phone);
-const isPasswordValid = password => typeof password === 'string' && password.length >= 4;
+const isValidEmail = (email) => /^[a-zA-Z0-9._%+-]+@[^@]+\.[^@]+$/.test(email);
+const isPhoneUA = (phone) => /^\+380\d{9}$/.test(phone);
+const isPasswordValid = (password) =>
+  typeof password === "string" && password.length >= 4;
 
-const allowedFields = Object.keys(USER).filter(key => key !== 'id');
+const allowedFields = Object.keys(USER).filter((key) => key !== "id");
 
 const createUserValid = (req, res, next) => {
   // TODO: Implement validatior for USER entity during creation
 
   const data = req.body;
 
-  
-  if ('id' in data) {
+  if ("id" in data) {
     res.err = new Error("Field 'id' should not be provided");
     return next();
   }
 
-  
-  const extraFields = Object.keys(data).filter(key => !allowedFields.includes(key));
+  const extraFields = Object.keys(data).filter(
+    (key) => !allowedFields.includes(key)
+  );
   if (extraFields.length) {
-    res.err = new Error(`Unexpected field(s): ${extraFields.join(', ')}`);
+    res.err = new Error(`Unexpected field(s): ${extraFields.join(", ")}`);
     return next();
   }
 
-  
   for (const field of allowedFields) {
     if (!data[field]) {
       res.err = new Error(`Field '${field}' is required`);
@@ -32,7 +32,6 @@ const createUserValid = (req, res, next) => {
     }
   }
 
-  
   if (!isValidEmail(data.email)) {
     res.err = new Error("Email must be a valid email address");
     return next();
@@ -47,8 +46,6 @@ const createUserValid = (req, res, next) => {
     res.err = new Error("Password must be at least 4 characters long");
     return next();
   }
- 
-
 
   next();
 };
@@ -58,26 +55,23 @@ const updateUserValid = (req, res, next) => {
 
   const data = req.body;
 
-  
-  if ('id' in data) {
+  if ("id" in data) {
     res.err = new Error("Field 'id' cannot be updated");
     return next();
   }
 
-  
   const keys = Object.keys(data);
   if (!keys.length) {
     res.err = new Error("At least one field must be provided for update");
     return next();
   }
 
-  const invalidFields = keys.filter(key => !allowedFields.includes(key));
+  const invalidFields = keys.filter((key) => !allowedFields.includes(key));
   if (invalidFields.length) {
-    res.err = new Error(`Unexpected field(s): ${invalidFields.join(', ')}`);
+    res.err = new Error(`Unexpected field(s): ${invalidFields.join(", ")}`);
     return next();
   }
 
-  
   if (data.email && !isValidEmail(data.email)) {
     res.err = new Error("Email must be a valid gmail address");
     return next();
@@ -92,9 +86,6 @@ const updateUserValid = (req, res, next) => {
     res.err = new Error("Password must be at least 4 characters long");
     return next();
   }
-
-
-
 
   next();
 };
