@@ -7,6 +7,16 @@ class UserService {
     return userRepository.getAll();
   }
 
+  getById(id) {
+    const user = userRepository.getOne({ id });
+    if (!user) {
+      const error = new Error('User not found');
+      error.status = 404;
+      throw error;
+    }
+    return user;
+  }
+
 
   search(search) {
     const item = userRepository.getOne(search);

@@ -22,6 +22,20 @@ router.get(
   responseMiddleware
 );
 
+router.get(
+  "/:id",
+  (req, res, next) => {
+    try {
+      res.data = userService.getById(req.params.id);
+    } catch (err) {
+      res.err = err;
+    } finally {
+      next();
+    }
+  },
+  responseMiddleware
+);
+
 // TODO: Implement route controllers for user
 
 export { router };
