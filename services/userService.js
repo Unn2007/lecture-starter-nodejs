@@ -29,6 +29,33 @@ class UserService {
     return userRepository.create(userData);
   }
 
+  update(id, userData) {
+    const existing = this.getById(id);
+    if (!existing) {
+      const error = new Error('User not found');
+      error.status = 404;
+      throw error;
+    }
+
+    
+    if (userData.email) {
+      const emailExists = this.getAll().some(
+        u => u.email.toLowerCase() === userData.email.toLowerCase() && u.id !== id
+      );
+      if (emailExists) throw new Error('Email already exists');
+    }
+
+    if (userData.phone) {
+      const phoneExists = this.getAll().some(
+        u => u.phone === userData.phone && u.id !== id
+      );
+      if (phoneExists) throw new Error('Phone already exists');
+    }
+
+    return userRepository.update(id, userData);
+  }
+
+
 
   search(search) {
     const item = userRepository.getOne(search);

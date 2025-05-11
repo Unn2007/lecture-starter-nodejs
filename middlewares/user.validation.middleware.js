@@ -55,6 +55,47 @@ const createUserValid = (req, res, next) => {
 
 const updateUserValid = (req, res, next) => {
   // TODO: Implement validatior for user entity during update
+
+  const data = req.body;
+
+  
+  if ('id' in data) {
+    res.err = new Error("Field 'id' cannot be updated");
+    return next();
+  }
+
+  
+  const keys = Object.keys(data);
+  if (!keys.length) {
+    res.err = new Error("At least one field must be provided for update");
+    return next();
+  }
+
+  const invalidFields = keys.filter(key => !allowedFields.includes(key));
+  if (invalidFields.length) {
+    res.err = new Error(`Unexpected field(s): ${invalidFields.join(', ')}`);
+    return next();
+  }
+
+  
+  if (data.email && !isValidEmail(data.email)) {
+    res.err = new Error("Email must be a valid gmail address");
+    return next();
+  }
+
+  if (data.phone && !isPhoneUA(data.phone)) {
+    res.err = new Error("Phone must match pattern +380xxxxxxxxx");
+    return next();
+  }
+
+  if (data.password && !isPasswordValid(data.password)) {
+    res.err = new Error("Password must be at least 4 characters long");
+    return next();
+  }
+
+
+
+
   next();
 };
 
