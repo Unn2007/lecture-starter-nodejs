@@ -38,6 +38,22 @@ router.get(
   responseMiddleware
 );
 
+router.post(
+  "/",
+  createFighterValid,
+  (req, res, next) => {
+    if (res.err) return next();
+    try {
+      res.data = fighterService.create(req.body);
+    } catch (err) {
+      res.err = err;
+    } finally {
+      next();
+    }
+  },
+  responseMiddleware
+);
+
 
 
 export { router };

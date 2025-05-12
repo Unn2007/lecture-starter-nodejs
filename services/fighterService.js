@@ -17,6 +17,24 @@ class FighterService {
     return fighter;
   }
 
+  create(fighterData) {
+    const fighters = this.getAll();
+
+    const nameExists = fighters.some(
+      f => f.name.toLowerCase() === fighterData.name.toLowerCase()
+    );
+    if (nameExists) {
+      throw new Error("Fighter name must be unique");
+    }
+
+   
+    if (!('health' in fighterData)) {
+      fighterData.health = 85;
+    }
+
+    return fighterRepository.create(fighterData);
+  }
+
 
 
 
