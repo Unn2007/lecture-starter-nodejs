@@ -9,7 +9,14 @@ router.post(
   (req, res, next) => {
     try {
       // TODO: Implement login action (get the user if it exist with entered credentials)
-      res.data = data;
+      const { email, password } = req.body;
+
+      if (!email || !password) {
+        throw new Error("Email and password are required");
+      }
+
+      const user = authService.login({ email, password });
+      res.data = { message: "Login successful", user };
     } catch (err) {
       res.err = err;
     } finally {
