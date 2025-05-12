@@ -24,4 +24,20 @@ router.get(
   responseMiddleware
 );
 
+router.get(
+  "/:id",
+  (req, res, next) => {
+    try {
+      res.data = fighterService.getById(req.params.id);
+    } catch (err) {
+      res.err = err;
+    } finally {
+      next();
+    }
+  },
+  responseMiddleware
+);
+
+
+
 export { router };

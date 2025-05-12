@@ -7,6 +7,17 @@ class FighterService {
     return fighterRepository.getAll();
   }
 
+  getById(id) {
+    const fighter = fighterRepository.getOne({ id });
+    if (!fighter) {
+      const error = new Error("Fighter not found");
+      error.status = 404;
+      throw error;
+    }
+    return fighter;
+  }
+
+
 
 
 }
