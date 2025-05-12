@@ -70,6 +70,18 @@ router.patch(
   responseMiddleware
 );
 
-
+router.delete(
+  "/:id",
+  (req, res, next) => {
+    try {
+      res.data = fighterService.delete(req.params.id);
+    } catch (err) {
+      res.err = err;
+    } finally {
+      next();
+    }
+  },
+  responseMiddleware
+);
 
 export { router };
