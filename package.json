@@ -12,7 +12,6 @@
     "test": "sh -c 'env REPO_URL=$0 npx mocha tests/**/*.spec.js -R JSON --exit'",
     "test-local": "./node_modules/.bin/mocha tests/**/*.spec.js --exit -R JSON",
     "start": "node index.js",
-    "dev": "nodemon --ignore config/database.json --ignore client/build index.js",
     "build-front": "cd client | ls",
     "feedback": "node ./feedback/index.js",
     "generate": "npm run test-local | npm run feedback"
@@ -32,10 +31,5 @@
   "engines": {
     "node": "16.x.x",
     "npm": "8.x.x"
-  },
-  "devDependencies": {
-    "nodemon": "^3.1.10",
-    "pino-http": "^10.4.0",
-    "pino-pretty": "^13.0.0"
   }
 }
