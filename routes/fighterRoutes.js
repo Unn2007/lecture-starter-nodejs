@@ -10,4 +10,18 @@ const router = Router();
 
 // TODO: Implement route controllers for fighter
 
+router.get(
+  "/",
+  (req, res, next) => {
+    try {
+      res.data = fighterService.getAll();
+    } catch (err) {
+      res.err = err;
+    } finally {
+      next();
+    }
+  },
+  responseMiddleware
+);
+
 export { router };
