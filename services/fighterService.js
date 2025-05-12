@@ -35,6 +35,25 @@ class FighterService {
     return fighterRepository.create(fighterData);
   }
 
+  update(id, fighterData) {
+    const existing = this.getById(id);
+    if (!existing) {
+      const error = new Error("Fighter not found");
+      error.status = 404;
+      throw error;
+    }
+
+    
+    if (fighterData.name) {
+      const nameExists = this.getAll().some(
+        f => f.name.toLowerCase() === fighterData.name.toLowerCase() && f.id !== id
+      );
+      if (nameExists) throw new Error("Fighter name must be unique");
+    }
+
+    return fighterRepository.update(id, fighterData);
+  }
+
 
 
 

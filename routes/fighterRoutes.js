@@ -54,6 +54,22 @@ router.post(
   responseMiddleware
 );
 
+router.patch(
+  "/:id",
+  updateFighterValid,
+  (req, res, next) => {
+    if (res.err) return next();
+    try {
+      res.data = fighterService.update(req.params.id, req.body);
+    } catch (err) {
+      res.err = err;
+    } finally {
+      next();
+    }
+  },
+  responseMiddleware
+);
+
 
 
 export { router };
