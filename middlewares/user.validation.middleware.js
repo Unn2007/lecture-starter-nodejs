@@ -1,6 +1,6 @@
 import { USER } from "../models/user.js";
 
-const isValidEmail = (email) => /^[a-zA-Z0-9._%+-]+@[^@]+\.[^@]+$/.test(email);
+const isValidEmail = (email) => /^[a-zA-Z0-9._%+-]+@gmail\.com$/.test(email);
 const isPhoneUA = (phone) => /^\+380\d{9}$/.test(phone);
 const isPasswordValid = (password) =>
   typeof password === "string" && password.length >= 4;
